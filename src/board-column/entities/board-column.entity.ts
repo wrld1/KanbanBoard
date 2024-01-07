@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { CoreEntity } from '../../application/entities/core.entity';
 import { Board } from '../../board/entities/board.entity';
+import { Card } from '../../card/entities/card.entity';
 
 @Entity({ name: 'boardColumn' })
 export class BoardColumn extends CoreEntity {
@@ -10,6 +11,11 @@ export class BoardColumn extends CoreEntity {
   })
   name: string;
 
-  @ManyToOne(() => Board, (board) => board.columns)
+  @ManyToOne(() => Board, (board) => board.columns, {
+    nullable: false,
+  })
   board: Board;
+
+  @OneToMany(() => Card, (card) => card.column)
+  cards: Card[];
 }
