@@ -13,9 +13,13 @@ export class BoardColumn extends CoreEntity {
 
   @ManyToOne(() => Board, (board) => board.columns, {
     nullable: false,
+    onDelete: 'CASCADE',
   })
   board: Board;
 
-  @OneToMany(() => Card, (card) => card.column)
+  @OneToMany(() => Card, (card) => card.column, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   cards: Card[];
 }

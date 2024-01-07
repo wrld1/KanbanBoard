@@ -10,6 +10,9 @@ export class Board extends CoreEntity {
   })
   name: string;
 
-  @OneToMany(() => BoardColumn, (column) => column.board)
+  @OneToMany(() => BoardColumn, (column) => column.board, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   columns: BoardColumn[];
 }

@@ -15,6 +15,7 @@ export class Card extends CoreEntity {
 
   @ManyToOne(() => BoardColumn, (column) => column.cards, {
     nullable: false,
+    onDelete: 'CASCADE',
   })
   column: BoardColumn;
 }
