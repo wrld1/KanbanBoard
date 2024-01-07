@@ -7,9 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "typeorm": "NODE_OPTIONS='-r dotenv/config' typeorm-ts-node-commonjs",
-    "typeorm:config": "npm run typeorm -- -d dist/configs/database/data-source.js",
+    "typeorm:config": "npm run typeorm -- -d src/configs/database/data-source.ts",
     "migrations:create": "npm run typeorm migration:create ./src/database/migrations/%npm_config_name%",
-    "migrations:generate": "npm run typeorm:config migration:generate ./src/database/migrations/%npm_config_name%",
+    "migrations:generate": "npm run typeorm:config migration:generate ./src/database/migrations/$npm_config_name",
     "migrations:run": "npm run typeorm:config migration:run",
     "migrations:revert": "npm run typeorm:config migration:revert",
     "build": "nest build",
