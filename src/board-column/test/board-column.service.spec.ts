@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BoardColumnService } from './board-column.service';
+import { BoardColumnService } from '../board-column.service';
 
 describe('BoardColumnService', () => {
   let service: BoardColumnService;

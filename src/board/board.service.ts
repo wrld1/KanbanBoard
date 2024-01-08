@@ -4,15 +4,14 @@ import { Repository } from 'typeorm';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { Board } from './entities/board.entity';
-import { BoardColumn } from 'src/board-column/entities/board-column.entity';
+import { BoardColumnService } from 'src/board-column/board-column.service';
 
 @Injectable()
 export class BoardService {
   constructor(
     @InjectRepository(Board)
     private readonly boardRepository: Repository<Board>,
-    @InjectRepository(BoardColumn)
-    private readonly columnRepository: Repository<BoardColumn>,
+    private readonly boardColumnService: BoardColumnService,
   ) {}
 
   async getAllBoards(): Promise<Board[]> {
@@ -39,26 +38,18 @@ export class BoardService {
 
     await this.boardRepository.save(board);
 
-    const todoColumn = this.columnRepository.create({
+    await this.boardColumnService.createColumn({
       name: 'ToDo',
-      board: { id: board.id },
+      boardId: board.id,
     });
-
-    const inProgressColumn = this.columnRepository.create({
+    await this.boardColumnService.createColumn({
       name: 'In Progress',
-      board: { id: board.id },
+      boardId: board.id,
     });
-
-    const doneColumn = this.columnRepository.create({
+    await this.boardColumnService.createColumn({
       name: 'Done',
-      board: { id: board.id },
+      boardId: board.id,
     });
-
-    await this.columnRepository.save([
-      todoColumn,
-      inProgressColumn,
-      doneColumn,
-    ]);
 
     return this.getBoardById(board.id);
   }

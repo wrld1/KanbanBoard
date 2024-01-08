@@ -7,40 +7,46 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { CardService } from './card.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
+import { Card } from './entities/card.entity';
 
 @Controller('cards')
 export class CardController {
   constructor(private readonly cardService: CardService) {}
 
-  @Post()
-  create(@Body() createCardDto: CreateCardDto) {
-    return this.cardService.create(createCardDto);
-  }
-
   @Get()
-  findAll() {
-    return this.cardService.findAll();
+  async getAllCards(): Promise<Card[]> {
+    return this.cardService.getAllCards();
   }
 
   @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.cardService.findOne(+id);
+  async getCardById(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<Card> {
+    return this.cardService.getCardById(id);
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async createCard(@Body() createCardDto: CreateCardDto): Promise<Card> {
+    return this.cardService.createCard(createCardDto);
   }
 
   @Patch(':id')
   update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateCardDto: UpdateCardDto,
-  ) {
-    return this.cardService.update(+id, updateCardDto);
+  ): Promise<Card> {
+    return this.cardService.updateCard(id, updateCardDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.cardService.remove(+id);
+  remove(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
+    return this.cardService.deleteCard(id);
   }
 }

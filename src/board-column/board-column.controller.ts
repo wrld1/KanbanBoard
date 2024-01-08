@@ -7,40 +7,50 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { BoardColumnService } from './board-column.service';
 import { CreateBoardColumnDto } from './dto/create-board-column.dto';
 import { UpdateBoardColumnDto } from './dto/update-board-column.dto';
+import { BoardColumn } from './entities/board-column.entity';
 
 @Controller('board-columns')
 export class BoardColumnController {
   constructor(private readonly boardColumnService: BoardColumnService) {}
 
-  @Post()
-  create(@Body() createBoardColumnDto: CreateBoardColumnDto) {
-    return this.boardColumnService.create(createBoardColumnDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.boardColumnService.findAll();
+  @Get('board/:boardId')
+  async getColumnsByBoardId(
+    @Param('boardId') boardId: string,
+  ): Promise<BoardColumn[]> {
+    return this.boardColumnService.getColumnsByBoardId(boardId);
   }
 
   @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.boardColumnService.findOne(+id);
+  async getColumnById(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<BoardColumn> {
+    return this.boardColumnService.getColumnById(id);
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async createColumn(
+    @Body() createBoardColumnDto: CreateBoardColumnDto,
+  ): Promise<BoardColumn> {
+    return this.boardColumnService.createColumn(createBoardColumnDto);
   }
 
   @Patch(':id')
-  update(
+  updateColumn(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateBoardColumnDto: UpdateBoardColumnDto,
-  ) {
-    return this.boardColumnService.update(+id, updateBoardColumnDto);
+  ): Promise<BoardColumn> {
+    return this.boardColumnService.updateColumn(id, updateBoardColumnDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.boardColumnService.remove(+id);
+  deleteColumn(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
+    return this.boardColumnService.deleteColumn(id);
   }
 }

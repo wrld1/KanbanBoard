@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BoardColumnController } from './board-column.controller';
-import { BoardColumnService } from './board-column.service';
+import { BoardColumnController } from '../board-column.controller';
+import { BoardColumnService } from '../board-column.service';
 
 describe('BoardColumnController', () => {
   let controller: BoardColumnController;
