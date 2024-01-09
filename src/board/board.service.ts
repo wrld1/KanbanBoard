@@ -42,18 +42,30 @@ export class BoardService {
 
     await this.boardRepository.save(board);
 
-    await this.boardColumnService.createColumn({
-      name: 'ToDo',
-      boardId: board.id,
-    });
-    await this.boardColumnService.createColumn({
-      name: 'In Progress',
-      boardId: board.id,
-    });
-    await this.boardColumnService.createColumn({
-      name: 'Done',
-      boardId: board.id,
-    });
+    setTimeout(
+      () =>
+        this.boardColumnService.createColumn({
+          name: 'ToDo',
+          boardId: board.id,
+        }),
+      50,
+    );
+    setTimeout(
+      () =>
+        this.boardColumnService.createColumn({
+          name: 'In Progress',
+          boardId: board.id,
+        }),
+      150,
+    );
+    setTimeout(
+      () =>
+        this.boardColumnService.createColumn({
+          name: 'Done',
+          boardId: board.id,
+        }),
+      250,
+    );
 
     return this.getBoardById(board.id);
   }
