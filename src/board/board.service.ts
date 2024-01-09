@@ -25,12 +25,11 @@ export class BoardService {
   async getBoardById(id: string): Promise<Board> {
     const board = await this.boardRepository.findOne({
       where: {
-        id,
+        id: id,
       },
-      relations: {
-        columns: true,
-      },
+      relations: ['columns', 'columns.cards'],
     });
+
     if (!board) {
       throw new NotFoundException(`Board with ID ${id} not found`);
     }
