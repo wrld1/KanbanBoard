@@ -15,9 +15,11 @@ export class BoardService {
   ) {}
 
   async getAllBoards(): Promise<Board[]> {
-    return await this.boardRepository.find({
-      relations: ['columns', 'columns.cards'],
-    });
+    return await this.boardRepository
+      .createQueryBuilder('board')
+      .leftJoinAndSelect('board.columns', 'column')
+      .leftJoinAndSelect('column.cards', 'card')
+      .getMany();
   }
 
   async getBoardById(id: string): Promise<Board> {
