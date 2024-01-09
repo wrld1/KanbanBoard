@@ -15,7 +15,9 @@ export class BoardService {
   ) {}
 
   async getAllBoards(): Promise<Board[]> {
-    return await this.boardRepository.find();
+    return await this.boardRepository.find({
+      relations: ['columns', 'columns.cards'],
+    });
   }
 
   async getBoardById(id: string): Promise<Board> {
