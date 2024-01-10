@@ -45,6 +45,7 @@ export class BoardColumnService {
   ): Promise<BoardColumn> {
     const column = this.columnRepository.create({
       name: createBoardColumnDto.name,
+      order: createBoardColumnDto.order,
       board: { id: createBoardColumnDto.boardId },
     });
     return this.columnRepository.save(column);
