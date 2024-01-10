@@ -45,6 +45,22 @@ export class CardController {
     return this.cardService.updateCard(id, updateCardDto);
   }
 
+  @Patch(':id/update-column')
+  async updateCardColumn(
+    @Param('id', new ParseUUIDPipe()) cardId: string,
+    @Body('newColumnId') newColumnId: string,
+  ): Promise<any> {
+    try {
+      const updatedCard = await this.cardService.updateCardColumn(
+        cardId,
+        newColumnId,
+      );
+      return { success: true, data: updatedCard };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
   @Delete(':id')
   remove(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
     return this.cardService.deleteCard(id);

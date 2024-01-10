@@ -55,6 +55,20 @@ export class CardService {
     return this.cardRepository.save(updatedCard);
   }
 
+  async updateCardColumn(id: string, columnId: string): Promise<Card> {
+    const card = await this.getCardById(id);
+
+    const newColumn = await this.boardColumnService.getColumnById(columnId);
+
+    if (!newColumn) {
+      throw new NotFoundException('BoardColumn with ID ${columnId} not found');
+    }
+
+    card.column = newColumn;
+
+    return this.cardRepository.save(card);
+  }
+
   async deleteCard(id: string): Promise<void> {
     const card = await this.getCardById(id);
     await this.cardRepository.remove(card);
