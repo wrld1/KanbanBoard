@@ -13,17 +13,18 @@ export class BoardColumnService {
   ) {}
 
   async getColumnsByBoardId(boardId: string): Promise<BoardColumn[]> {
-    const board = await this.columnRepository.find({
+    const columns = await this.columnRepository.find({
       where: {
         board: { id: boardId },
       },
+      relations: ['cards'],
     });
 
-    if (!board) {
+    if (!columns) {
       throw new NotFoundException(`Board with ID ${boardId} not found`);
     }
 
-    return board;
+    return columns;
   }
 
   async getColumnById(id: string): Promise<BoardColumn> {

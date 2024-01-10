@@ -45,6 +45,7 @@ export class BoardService {
       () =>
         this.boardColumnService.createColumn({
           name: 'ToDo',
+          order: 1,
           boardId: board.id,
         }),
       50,
@@ -53,6 +54,7 @@ export class BoardService {
       () =>
         this.boardColumnService.createColumn({
           name: 'In Progress',
+          order: 2,
           boardId: board.id,
         }),
       150,
@@ -61,6 +63,7 @@ export class BoardService {
       () =>
         this.boardColumnService.createColumn({
           name: 'Done',
+          order: 3,
           boardId: board.id,
         }),
       250,

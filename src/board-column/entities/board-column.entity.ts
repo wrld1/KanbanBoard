@@ -11,6 +11,12 @@ export class BoardColumn extends CoreEntity {
   })
   name: string;
 
+  @Column({
+    type: 'int',
+    nullable: false,
+  })
+  order: number;
+
   @ManyToOne(() => Board, (board) => board.columns, {
     nullable: false,
     onDelete: 'CASCADE',
